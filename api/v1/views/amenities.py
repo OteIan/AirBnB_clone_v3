@@ -68,7 +68,7 @@ def update_amenity_object(amenity_id):
     if not obj or obj is None:
         abort(404)
 
-    data = request.get_json
+    data = request.get_json()
     if not data:
         abort(404, 'Not a JSON')
 
