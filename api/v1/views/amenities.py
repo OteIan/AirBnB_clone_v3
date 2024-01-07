@@ -13,8 +13,8 @@ from api.v1.views import app_views
 def list_amenity_objects():
     """
     """
-    obj = storage.all(Amenity)
-    return jsonify(obj.to_dict())
+    all_obj = storage.all(Amenity)
+    return jsonify([obj.to_dict() for obj in all_obj.values()])
 
 
 @app_views.route('/amenities/<amenity_id>', methods=['GET'], strict_slashes=False)
