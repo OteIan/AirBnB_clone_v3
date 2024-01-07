@@ -57,7 +57,7 @@ def create_amenity_object():
     storage.new(obj)
     storage.save()
 
-    return make_response(jsonify(obj), 201)
+    return make_response(jsonify(obj.to_dict()), 201)
 
 
 @app_views.route('/amenities/<amenity_id>', methods=['PUT'], strict_slashes=False)
