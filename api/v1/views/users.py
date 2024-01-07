@@ -90,8 +90,10 @@ def create_user():
 
     if not data:
         abort(404, "Not a JSON")
-    elif 'name' not in data.keys():
-        abort(404, 'Missing name')
+    elif 'email' not in data.keys():
+        abort(404, 'Missing email')
+    elif 'password' not in data.keys():
+        abort(404, 'Missing password')
 
     obj = User(**data)
     storage.new(obj)
