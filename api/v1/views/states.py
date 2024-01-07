@@ -90,9 +90,9 @@ def create_state():
     data = request.get_json()
 
     if not data:
-        abort(404, "Not a JSON")
+        abort(400, "Not a JSON")
     elif 'name' not in data.keys():
-        abort(404, 'Missing name')
+        abort(400, 'Missing name')
 
     obj = State(**data)
     storage.new(obj)
@@ -125,7 +125,7 @@ def update_state_objects(state_id):
 
     data = request.get_json()
     if not data:
-        abort(404, "Not a JSON")
+        abort(400, "Not a JSON")
 
     for key, value in data.items():
         if key not in ['id', 'created_at', 'updated_at']:

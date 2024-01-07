@@ -91,9 +91,9 @@ def create_amenity_object():
     """
     data = request.get_json()
     if not data:
-        abort(404, 'Not a JSON')
+        abort(400, 'Not a JSON')
     elif 'name' not in data.keys():
-        abort(404, 'Missing name')
+        abort(400, 'Missing name')
 
     obj = Amenity(**data)
     storage.new(obj)
@@ -126,7 +126,7 @@ def update_amenity_object(amenity_id):
 
     data = request.get_json()
     if not data:
-        abort(404, 'Not a JSON')
+        abort(400, 'Not a JSON')
 
     for key, value in data.items():
         if key not in ['id', 'created_at', 'updated_at']:

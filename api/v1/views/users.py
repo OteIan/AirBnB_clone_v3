@@ -89,11 +89,11 @@ def create_user():
     data = request.get_json()
 
     if not data:
-        abort(404, "Not a JSON")
+        abort(400, "Not a JSON")
     elif 'email' not in data.keys():
-        abort(404, 'Missing email')
+        abort(400, 'Missing email')
     elif 'password' not in data.keys():
-        abort(404, 'Missing password')
+        abort(400, 'Missing password')
 
     obj = User(**data)
     storage.new(obj)
@@ -126,7 +126,7 @@ def update_user_objects(user_id):
 
     data = request.get_json()
     if not data:
-        abort(404, "Not a JSON")
+        abort(400, "Not a JSON")
 
     for key, value in data.items():
         if key not in ['id', 'created_at', 'updated_at']:
