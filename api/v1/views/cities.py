@@ -7,7 +7,8 @@ from models.state import State
 from flask import abort, jsonify, request
 
 
-@app_views.route('/states/<state_id>/cities', methods=['GET', 'POST'])
+@app_views.route('/states/<state_id>/cities', methods=['GET', 'POST'],
+                 strict_slashes=False)
 def get_cities(state_id):
     """Gets all the cities for a given state"""
     state = storage.get(State, state_id)
@@ -32,7 +33,8 @@ def get_cities(state_id):
         return jsonify(city.to_dict()), 201
 
 
-@app_views.route('/cities/<city_id>', methods=['GET', 'DELETE', 'PUT', 'POST'])
+@app_views.route('/cities/<city_id>', methods=['GET', 'DELETE', 'PUT', 'POST'],
+                 strict_slashes=False)
 def method_city(city_id):
     """Method for cities"""
     city = storage.get(City, city_id)
@@ -45,6 +47,7 @@ def method_city(city_id):
         storage.delete(city)
         storage.save()
         return jsonify({}), 200
+
     if request.method == 'PUT':
         data = request.get_json()
         if data is None:
