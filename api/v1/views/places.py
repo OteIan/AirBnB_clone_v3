@@ -64,7 +64,7 @@ def create_place(city_id):
     elif 'name' not in data.keys():
         abort(400, 'Missing name')
 
-    user = storage.get(User, data.items()['user_id'])
+    user = storage.get(User, data['user_id'])
     if not user:
         abort(404)
 
