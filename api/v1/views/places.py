@@ -20,7 +20,7 @@ def list_place_objects(city_id):
         abort(404)
 
     all_objs = storage.all(Place)
-    return jsonify([obj.to_dict() for obj in all_objs.values() if obj.to_dict().city_id == city_id])
+    return jsonify([obj.to_dict() for obj in all_objs.values() if obj.city_id == city_id])
 
 
 @app_views.route('/places/<place_id>', methods=['GET'], strict_slashes=False)
