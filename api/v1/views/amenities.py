@@ -34,7 +34,8 @@ def get_amenities():
         return jsonify(obj.to_dict()), 201
 
 
-@app_views.route('/amenities/<amenity_id>', methods=['GET', 'DELETE', 'PUT'], strict_slashes=False)
+@app_views.route('/amenities/<amenity_id>', methods=['GET', 'DELETE', 'PUT'],
+                 strict_slashes=False)
 def methos_amenities(amenity_id):
     """
     Retrieve, delete, or update an amenity.
