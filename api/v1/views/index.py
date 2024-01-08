@@ -21,7 +21,7 @@ def display_status():
     $ curl http://127.0.0.1:your_port/status
     Output: {"status": "OK"}
     """
-    return jsonify({"status": "OK"}), 200
+    return jsonify({"status": "OK"})
 
 
 @app_views.route('/stats', methods=['GET'], strict_slashes=False)
