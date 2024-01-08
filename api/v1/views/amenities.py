@@ -9,7 +9,7 @@ from flask import abort, jsonify, request
 from api.v1.views import app_views
 
 
-@app_views.route('/amenities', methods=['GET', 'POST'])
+@app_views.route('/amenities', methods=['GET', 'POST'], strict_slashes=False)
 def get_amenities():
     """
     Get all amenities or create a new amenity.
@@ -34,7 +34,7 @@ def get_amenities():
         return jsonify(obj.to_dict()), 201
 
 
-@app_views.route('/amenities/<amenity_id>', methods=['GET', 'DELETE', 'PUT'])
+@app_views.route('/amenities/<amenity_id>', methods=['GET', 'DELETE', 'PUT'], strict_slashes=False)
 def methos_amenities(amenity_id):
     """
     Retrieve, delete, or update an amenity.
