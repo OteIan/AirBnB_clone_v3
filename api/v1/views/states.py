@@ -5,7 +5,7 @@ actions
 """
 from models import storage
 from models.state import State
-from flask import abort, jsonify, request, make_response
+from flask import abort, jsonify, request
 from api.v1.views import app_views
 
 
@@ -22,7 +22,7 @@ def list_state_objects():
     Output: JSON representation of all State objects
     """
     all_objs = storage.all(State)
-    return jsonify([obj.to_dict() for obj in all_objs.values()])
+    return jsonify([obj.to_dict() for obj in all_objs.values()]), 200
 
 
 @app_views.route('/states/<state_id>', methods=['GET'], strict_slashes=False)
@@ -43,7 +43,7 @@ def get_state_objects(state_id):
     obj = storage.get(State, state_id)
     if not obj:
         abort(404)
-    return jsonify(obj.to_dict())
+    return jsonify(obj.to_dict()), 200
 
 
 @app_views.route('/states/<state_id>', methods=['DELETE'],
@@ -69,7 +69,7 @@ def delete_state_objects(state_id):
     obj.delete()
     storage.save()
 
-    return make_response(jsonify({}), 200)
+    return jsonify({}), 200
 
 
 @app_views.route('/states', methods=['POST'], strict_slashes=False)
@@ -98,7 +98,7 @@ def create_state():
     storage.new(obj)
     storage.save()
 
-    return make_response(jsonify(obj.to_dict()), 201)
+    return jsonify(obj.to_dict()), 201
 
 
 @app_views.route('/states/<state_id>', methods=['PUT'], strict_slashes=False)
@@ -133,4 +133,4 @@ def update_state_objects(state_id):
 
     storage.save()
 
-    return make_response(jsonify(obj.to_dict()), 200)
+    return jsonify(obj.to_dict()), 200
