@@ -15,6 +15,7 @@ from api.v1.views import app_views
                  strict_slashes=False)
 def get_reviews(place_id):
     """
+    Reviews for places with place ids
     """
     place = storage.get(Place, place_id)
     if not place:
@@ -50,7 +51,7 @@ def get_reviews(place_id):
                  strict_slashes=False)
 def method_reviews(review_id):
     """
-    Methods for reviews
+    Methods for reviews with ids
     """
     review = storage.get(Review, review_id)
     if review is None or not review:

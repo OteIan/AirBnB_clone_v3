@@ -15,6 +15,7 @@ from api.v1.views import app_views
                  strict_slashes=False)
 def get_places(city_id):
     """
+    places with city ids
     """
     city = storage.get(City, city_id)
     if not city:
@@ -48,6 +49,7 @@ def get_places(city_id):
                  strict_slashes=False)
 def methods_places(place_id):
     """
+    Places with IDs methods
     """
     place = storage.get(Place, place_id)
     if place is None or not place:
