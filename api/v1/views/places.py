@@ -68,7 +68,7 @@ def create_place(city_id):
     if not user:
         abort(404)
 
-    obj = Place(**data)
+    obj = Place(city_id=city_id, **data)
     storage.new(obj)
     storage.save()
 
