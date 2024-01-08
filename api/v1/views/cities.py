@@ -6,6 +6,7 @@ from models.city import City
 from models.state import State
 from flask import abort, jsonify, request
 
+
 @app_views.route('/states/<state_id>/cities', methods=['GET', 'POST'])
 def get_cities(state_id):
     """Gets all the cities for a given state"""
@@ -15,12 +16,12 @@ def get_cities(state_id):
 
     if request.method == 'GET':
         all_cities = storage.all('City')
-        cities = [city.to_dict() for city in all_cities.values() 
+        cities = [city.to_dict() for city in all_cities.values()
                   if city.state_id == state_id]
         return jsonify(cities), 200
 
-    if request.method  == 'POST':
-        data =  request.get_json()
+    if request.method == 'POST':
+        data = request.get_json()
         if data is None:
             abort(400, 'Not a JSON')
         if 'name' not in data:
