@@ -13,16 +13,8 @@ from api.v1.views import app_views
 def get_amenities():
     """
     Get all amenities or create a new amenity.
-
     GET: Returns a JSON response with all amenities.
     POST: Creates a new amenity based on the provided JSON data.
-
-    Returns:
-        - GET: JSON response with all amenities and status code 200.
-        - POST: JSON response with the created amenity and status code 201.
-
-    Raises:
-        - 400: If the request data is not in JSON format or if the 'name' key is missing.
     """
     if request.method == 'GET':
         all_obj = storage.all(Amenity)
@@ -46,26 +38,11 @@ def get_amenities():
 def methos_amenities(amenity_id):
     """
     Retrieve, delete, or update an amenity.
-
-    Args:
-        amenity_id (str): The ID of the amenity.
-
-    Returns:
-        If the request method is GET:
-            - A JSON response containing the amenity information and a status code 200.
-        If the request method is DELETE:
-            - An empty JSON response and a status code 200.
-        If the request method is PUT:
-            - A JSON response containing the updated amenity information and a status code 200.
-
-    Raises:
-        404: If the amenity with the specified ID does not exist.
-        400: If the request method is PUT and the request data is not in JSON format.
     """
     amenity = storage.get(Amenity, amenity_id)
     if not amenity:
         abort(404)
-    
+
     if request.method == 'GET':
         return jsonify(amenity.to_dict()), 200
 
