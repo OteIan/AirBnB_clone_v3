@@ -11,7 +11,8 @@ from flask import abort, jsonify, request
 from api.v1.views import app_views
 
 
-@app_views.route('/places/<place_id>/reviews', methods=['GET', 'POST'])
+@app_views.route('/places/<place_id>/reviews', methods=['GET', 'POST'],
+                 strict_slashes=False)
 def get_reviews(place_id):
     """
     """
@@ -21,8 +22,10 @@ def get_reviews(place_id):
 
     if request.method == 'GET':
         all_objs = storage.all(Review)
-        return jsonify([obj.to_dict() for obj in all_objs.values() if obj.place_id == place_id]), 200
-    
+        x = [obj.to_dict() for obj in all_objs.values()
+             if obj.place_id == place_id]
+        return jsonify(x), 200
+
     if request.method == 'POST':
         data = request.get_json()
         if not data:
@@ -43,9 +46,11 @@ def get_reviews(place_id):
         return jsonify(obj.to_dict()), 201
 
 
-@app_views.route('/reviews/<review_id>', methods=['PUT', 'GET', 'DELETE'])
+@app_views.route('/reviews/<review_id>', methods=['PUT', 'GET', 'DELETE'],
+                 strict_slashes=False)
 def method_reviews(review_id):
     """
+    Methods for reviews
     """
     review = storage.get(Review, review_id)
     if review is None or not review:
@@ -53,19 +58,20 @@ def method_reviews(review_id):
 
     if request.method == 'GET':
         return jsonify(review.to_dict()), 200
-    
+
     if request.method == 'DELETE':
         review.delete()
         storage.save()
         return jsonify({}), 200
-    
+
     if request.method == 'PUT':
         data = request.get_json()
         if not data:
             abort(404, "Not a JSON")
 
         for key, value in data.items():
-            if key not in ['id', 'created_at', 'updated_at', 'user_id', 'place_id']:
+            if key not in ['id', 'created_at', 'updated_at',
+                           'user_id', 'place_id']:
                 setattr(review, key, value)
 
         storage.save()
