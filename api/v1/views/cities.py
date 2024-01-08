@@ -40,7 +40,7 @@ def method_city(city_id):
         abort(404)
 
     if request.method == 'GET':
-        return jsonify(city.to_dict())
+        return jsonify(city.to_dict()), 200
     if request.method == 'DELETE':
         storage.delete(city)
         storage.save()
