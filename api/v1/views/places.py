@@ -11,7 +11,8 @@ from flask import abort, jsonify, request
 from api.v1.views import app_views
 
 
-@app_views.route('/cities/<city_id>/places', methods=['GET', 'POST'])
+@app_views.route('/cities/<city_id>/places', methods=['GET', 'POST'],
+                 strict_slashes=False)
 def get_places(city_id):
     """
     """
@@ -21,7 +22,8 @@ def get_places(city_id):
 
     if request.method == 'GET':
         all_objs = storage.all(Place)
-        return jsonify([obj.to_dict() for obj in all_objs.values() if obj.city_id == city_id]), 200
+        places = [obj.to_dict() for obj in all_objs.values()]
+        return jsonify(places), 200
 
     if request.method == 'POST':
         data = request.get_json()
@@ -31,7 +33,7 @@ def get_places(city_id):
             abort(400, 'Missing user_id')
         elif 'name' not in data.keys():
             abort(400, 'Missing name')
- 
+
         if not storage.get(User, data['user_id']):
             abort(404)
 
@@ -42,7 +44,8 @@ def get_places(city_id):
         return jsonify(obj.to_dict()), 201
 
 
-@app_views.route('/places/<place_id>', methods=['GET', 'PUT', 'DELETE'])
+@app_views.route('/places/<place_id>', methods=['GET', 'PUT', 'DELETE'],
+                 strict_slashes=False)
 def methods_places(place_id):
     """
     """
@@ -64,7 +67,8 @@ def methods_places(place_id):
             abort(400, "Not a JSON")
 
         for key, value in data.items():
-            if key not in ['id', 'created_at', 'updated_at', 'user_id', 'place_id']:
+            if key not in ['id', 'created_at',
+                           'updated_at', 'user_id', 'place_id']:
                 setattr(place, key, value)
 
         storage.save()
