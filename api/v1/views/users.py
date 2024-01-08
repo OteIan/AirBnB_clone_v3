@@ -12,6 +12,7 @@ from api.v1.views import app_views
 @app_views.route('/users', methods=['GET', 'POST'], strict_slashes=False)
 def get_users():
     """
+    Get all users or create a new user.
     """
     if request.method == 'GET':
         all_objs = storage.all(User)
@@ -34,9 +35,11 @@ def get_users():
         return jsonify(obj.to_dict()), 201
 
 
-@app_views.route('/users/<user_id>', methods=['GET', 'PUT', 'DELETE'], strict_slashes=False)
+@app_views.route('/users/<user_id>', methods=['GET', 'PUT', 'DELETE'],
+                 strict_slashes=False)
 def method_users(user_id):
     """
+    Method for users with ids
     """
     user = storage.get(User, user_id)
     if not user:
