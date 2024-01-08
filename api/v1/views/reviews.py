@@ -20,7 +20,7 @@ def list_review_objects(place_id):
         abort(404)
 
     all_objs = storage.all(Review)
-    return jsonify([obj.to_dict() for obj in all_objs.values() if obj.to_dict().place_id == place_id])
+    return jsonify([obj.to_dict() for obj in all_objs.values() if obj.place_id == place_id])
 
 
 @app_views.route('/reviews/<review_id>', methods=['GET'], strict_slashes=False)
@@ -65,11 +65,11 @@ def create_review(place_id):
     elif 'text' not in data.keys():
         abort(400, 'Missing text')
 
-    user = storage.get(User, data.items()['user_id'])
+    user = storage.get(User, data['user_id'])
     if not user:
         abort(404)
 
-    obj = Review(**data)
+    obj = Review(place_id=place_id, **data)
     storage.new(obj)
     storage.save()
 
