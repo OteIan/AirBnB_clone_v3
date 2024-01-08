@@ -3,16 +3,16 @@
 View for State objects that Handles all default RESTFul API
 actions
 """
-from models import storage
-from models.state import State
 from flask import abort, jsonify, request
 from api.v1.views import app_views
+from models import storage
+from models.state import State
 
 
-
-@app_views.route('/states', methods=['GET', 'POST'])
+@app_views.route('/states', methods=['GET', 'POST'], strict_slashes=False)
 def get_states():
     """
+    Get all states or create a new state.
     """
     if request.method == 'GET':
         all_objs = storage.all(State)
@@ -33,9 +33,11 @@ def get_states():
         return jsonify(obj.to_dict()), 201
 
 
-@app_views.route('/states/<state_id>', methods=['GET', 'PUT', 'DELETE'])
+@app_views.route('/states/<state_id>', methods=['GET', 'PUT', 'DELETE'],
+                 strict_slashes=False)
 def method_states(state_id):
     """
+    Method for states with ids
     """
     states = storage.get(State, state_id)
     if not states:
