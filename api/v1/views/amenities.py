@@ -5,7 +5,7 @@ actions
 """
 from models import storage
 from models.amenity import Amenity
-from flask import abort, jsonify, request, make_response
+from flask import abort, jsonify, request
 from api.v1.views import app_views
 
 
@@ -22,7 +22,7 @@ def list_amenity_objects():
     Output: JSON representation of all Amenity objects
     """
     all_obj = storage.all(Amenity)
-    return jsonify([obj.to_dict() for obj in all_obj.values()])
+    return jsonify([obj.to_dict() for obj in all_obj.values()]), 200
 
 
 @app_views.route('/amenities/<amenity_id>', methods=['GET'],
@@ -45,7 +45,7 @@ def get_amenity_object(amenity_id):
     if not obj:
         abort(404)
 
-    return jsonify(obj.to_dict())
+    return jsonify(obj.to_dict()), 200
 
 
 @app_views.route('/amenities/<amenity_id>', methods=['DELETE'],
@@ -72,7 +72,7 @@ def delete_amenity_object(amenity_id):
     del obj
     storage.save()
 
-    return make_response(jsonify({}), 200)
+    return jsonify({}), 200
 
 
 @app_views.route('/amenities', methods=['POST'], strict_slashes=False)
@@ -99,7 +99,7 @@ def create_amenity_object():
     storage.new(obj)
     storage.save()
 
-    return make_response(jsonify(obj.to_dict()), 201)
+    return jsonify(obj.to_dict()), 201
 
 
 @app_views.route('/amenities/<amenity_id>', methods=['PUT'],
@@ -134,4 +134,4 @@ def update_amenity_object(amenity_id):
 
     storage.save()
 
-    return make_response(jsonify(obj.to_dict()), 200)
+    return jsonify(obj.to_dict()), 200
