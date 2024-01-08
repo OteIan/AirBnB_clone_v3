@@ -10,7 +10,7 @@ from flask import jsonify
 from models import storage
 
 
-@app_views.route('/status', methods=['GET'])
+@app_views.route('/status', methods=['GET'], strict_slashes=False)
 def display_status():
     """
     Route: /status
@@ -21,10 +21,10 @@ def display_status():
     $ curl http://127.0.0.1:your_port/status
     Output: {"status": "OK"}
     """
-    return jsonify({"status": "OK"})
+    return jsonify({"status": "OK"}), 200
 
 
-@app_views.route('/stats', methods=['GET'])
+@app_views.route('/stats', methods=['GET'], strict_slashes=False)
 def show_data():
     """
     Retrieves the number of each objects by type.
@@ -37,4 +37,4 @@ def show_data():
         "states": storage.count("State"),
         "users": storage.count("User")
     }
-    return jsonify(stats)
+    return jsonify(stats), 200
